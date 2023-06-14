@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Theme.KotlinLogin" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- Primary brand color. -->
+        <item name="android:colorPrimary">@color/brandColor</item>
+        <!-- <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item> -->
+        <!-- Secondary brand color. -->
+        <!-- <item name="colorSecondary">@color/light_gray</item>
+        <item name="colorSecondaryVariant">@color/light_gray</item>
+        <item name="colorOnSecondary">@color/white</item> -->
+        <!-- Status bar color. -->
+        <!-- <item name="android:statusBarColor">?attr/colorPrimaryVariant</item> -->
+    </style>
+
+</resources>
