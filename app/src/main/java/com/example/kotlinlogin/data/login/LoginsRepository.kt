@@ -12,7 +12,7 @@ interface LoginsRepository {
     fun getAllLoginsStream(): Flow<List<Login>>
 
     // Retrieve a login from the given data source that matches id
-    fun getLoginStream(id: Int): Flow<Login?>
+    fun getLoginStream(username: String, password: String): Flow<Login?>
 
     // Insert a login into the data source
     suspend fun insertLogin(login: Login)

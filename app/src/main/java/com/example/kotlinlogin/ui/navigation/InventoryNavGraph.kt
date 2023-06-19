@@ -26,15 +26,9 @@ fun InventoryNavHost(
     ) {
         composable(route = LoginDestination.route) {
             LoginScreen(
-                // TODO: Implement navigation functions
-                navigateToNextScreen = {
-                                      //navController.navigate( TODO: InventoryDestination.route)
-                },
-                navigateToAcctCreation = {
-                    //navController.navigate(
-                }
+                // Implement navigation function here
             )
         }
-        // TODO: Implement the rest of the composables
+        // Implement other composables
     }
 }

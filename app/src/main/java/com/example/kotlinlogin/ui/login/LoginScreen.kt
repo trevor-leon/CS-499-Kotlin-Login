@@ -41,14 +41,11 @@ object LoginDestination : NavigationDestination {
 
 /**
  * Display the Login screen
- * @param navigateToNextScreen function specifying how to navigate to the inventory screen
- * @param navigateToAcctCreation function specifying how to navigate to the AcctCreation screen
  */
 @Composable
 fun LoginScreen(
-    navigateToNextScreen: () -> Unit,
-    navigateToAcctCreation: () -> Unit,
     modifier: Modifier = Modifier,
+    navigateToNextScreen: () -> Unit = {},
     loginViewModel: LoginViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val loginUiState = loginViewModel.loginUiState
@@ -69,15 +66,18 @@ fun LoginScreen(
             // Pass the updateUiState function as the onValuesChange parameter
             onValuesChange = loginViewModel::updateUiState,
             onLoginClick = {
-                           coroutineScope.launch {
-                               /* TODO: implement the loginClick function */
-                           }
-                           },
+                coroutineScope.launch {
+                    /* TODO: implement the loginClick function */
+                    // if findLogin() finds the login, make a Toast stating so
+
+                    loginViewModel.findLogin()
+                }
+            },
             onAcctCreateClick = {
-                                coroutineScope.launch {
-                                    loginViewModel.saveLogin()
-                                }
-                                },
+                coroutineScope.launch {
+                    loginViewModel.saveLogin()
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }

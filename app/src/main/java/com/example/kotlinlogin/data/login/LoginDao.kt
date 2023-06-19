@@ -24,13 +24,13 @@ interface LoginDao {
     @Delete
     suspend fun delete(login: Login)
 
-    @Query("SELECT * FROM Login WHERE id = :id")
-    fun getLogin(id: Int): Flow<Login>
+    // TODO: Delete later?
+    /*@Query("SELECT * FROM Login WHERE id = :id")
+    fun getLogin(id: Int): Flow<Login>*/
+
+    @Query("SELECT * FROM Login WHERE username = :username AND password = :password")
+    fun getLogin(username: String, password: String): Flow<Login>
 
     @Query("SELECT * FROM Login")
     fun getAllLogins(): Flow<List<Login>>
-
-    // TODO: Implement later
-    @Query("SELECT * FROM Login WHERE username = :username AND password = :password")
-    fun findLogin(username: String, password: String): Flow<Login>
 }

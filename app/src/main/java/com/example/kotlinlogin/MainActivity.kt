@@ -34,10 +34,6 @@ class MainActivity : ComponentActivity() {
 fun LoginActivity() {
     KotlinInventoryTheme {
         // TODO: start Login Activity, I think ***
-        LoginScreen(
-            navigateToNextScreen = {},
-            // TODO: probably remove navigate to AcctCreation
-            navigateToAcctCreation = {}
-        )
+        LoginScreen()
     }
 }

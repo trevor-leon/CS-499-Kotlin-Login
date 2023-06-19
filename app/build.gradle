@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.kotlinlogin"
-        minSdk 21
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -70,6 +70,23 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    // SQLCipher
+    implementation "net.zetetic:android-database-sqlcipher:4.5.3"
+    implementation "androidx.sqlite:sqlite:2.3.1"
+
+    // Crypto
+    // =============================================================================================
+    implementation("androidx.security:security-crypto:1.0.0")
+
+    // For Identity Credential APIs
+    implementation("androidx.security:security-identity-credential:1.0.0-alpha03")
+
+    // For App Authentication APIs
+    implementation("androidx.security:security-app-authenticator:1.0.0-alpha02")
+
+    // For App Authentication API testing
+    androidTestImplementation("androidx.security:security-app-authenticator:1.0.0-alpha02")
 
     // Testing
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"

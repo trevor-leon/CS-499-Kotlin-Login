@@ -32,35 +32,42 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
      * Validate and save the current loginUiState details if the username and password
      */
     suspend fun saveLogin() {
-        if (validateUsername() && validatePassword()) {
-            // TODO: implement ENCRYPTION and store securely
+        if (validateLogin()) {
             loginsRepository.insertLogin(loginUiState.loginDetails.toLogin())
         }
     }
 
     /**
-     * Get the login from the database according to the username and password, decrypt it,
+     * Get the login from the database according to the username and password
      * and verify that it matches the UI state
      */
     suspend fun findLogin() {
-        if (validateUsername() && validatePassword()) {
-            // TODO: implement ENCRYPTION and store securely
+        if (validateLogin()) {
             loginsRepository.insertLogin(loginUiState.loginDetails.toLogin())
         }
     }
 
     /**
-     * Validate the username by checking for an email pattern
+     * Validate the login by checking for an email pattern in the username, and then checking
+     * the password for the password pattern
      */
-    private fun validateUsername(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
+    private fun validateLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
         return with(uiState) {
             // This represents a pattern for an email address
             val emailPattern = Patterns.EMAIL_ADDRESS
             // Check if the provided username matches a valid email pattern
             val matcher: Matcher = emailPattern.matcher(uiState.username.trim())
 
-            matcher.matches()
-                    && username.trim().isNotBlank()
+            // If the username matches the username pattern, return true
+            if(matcher.matches() && username.trim().isNotBlank()) {
+                validatePassword()
+                true
+            } else {
+                // Else, update the UI state with the username reset to "" and return false
+                updateUiState(LoginDetails(password = uiState.password))
+                validatePassword()
+                false
+            }
         }
     }
 
@@ -75,20 +82,26 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
              * and has at least ten characters
              */
             val passwordPattern =
-                "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{10,}$"
+                "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=]).{10,}$"
 
             pattern = Pattern.compile(passwordPattern)
             val matcher: Matcher = pattern.matcher(uiState.password.trim())
 
-            matcher.matches()
-                    && password.trim().isNotBlank()
+            // If the username matches the username pattern, return true
+            if(matcher.matches() && password.trim().isNotBlank()) {
+                true
+            } else {
+                // Else, update the UI state with the password reset to "" and return false
+                updateUiState(LoginDetails(username = uiState.username))
+                false
+            }
         }
     }
 
 }
 
 /**
- * data class representation of the current UI State.
+ * Data class representation of the current UI State.
  * TODO: Changed Valid Booleans to be initialized as null 6/7. Double check later
  */
 data class LoginUiState(
