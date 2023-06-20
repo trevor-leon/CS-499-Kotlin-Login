@@ -15,7 +15,7 @@ import javax.crypto.SecretKey
 /**
  * Specify the database with the Login class as the entity; without keeping a version backup history
  */
-@Database(entities = [Login::class], version = 1, exportSchema = false)
+@Database(entities = [Login::class], version = 2, exportSchema = false)
 abstract class LoginDatabase : RoomDatabase() {
     abstract fun loginDao(): LoginDao
     // Companion object allows access to database methods

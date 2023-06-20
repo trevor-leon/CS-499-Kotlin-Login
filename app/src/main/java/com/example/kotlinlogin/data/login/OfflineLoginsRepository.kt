@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.Flow
 class OfflineLoginsRepository(private val loginDao: LoginDao) : LoginsRepository {
     override fun getAllLoginsStream(): Flow<List<Login>> = loginDao.getAllLogins()
 
-    override fun getLoginStream(username: String, password: String): Flow<Login?> =
-        loginDao.getLogin(username, password)
+    // Determine whether or not the username and password combination exists in the database.
+    override suspend fun loginExists(username: String, password: String): Boolean =
+        loginDao.loginExists(username, password)
 
     override suspend fun insertLogin(login: Login) = loginDao.insert(login)
 

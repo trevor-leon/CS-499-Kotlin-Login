@@ -28,8 +28,9 @@ interface LoginDao {
     /*@Query("SELECT * FROM Login WHERE id = :id")
     fun getLogin(id: Int): Flow<Login>*/
 
-    @Query("SELECT * FROM Login WHERE username = :username AND password = :password")
-    fun getLogin(username: String, password: String): Flow<Login>
+    // Determine if a login exists in the database
+    @Query("SELECT EXISTS(SELECT * FROM Login WHERE username = :username AND password = :password)")
+    suspend fun loginExists(username: String, password: String): Boolean
 
     @Query("SELECT * FROM Login")
     fun getAllLogins(): Flow<List<Login>>

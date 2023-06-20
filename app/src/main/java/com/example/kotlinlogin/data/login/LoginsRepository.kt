@@ -11,8 +11,8 @@ interface LoginsRepository {
     // Retrieve all logins of the given data source
     fun getAllLoginsStream(): Flow<List<Login>>
 
-    // Retrieve a login from the given data source that matches id
-    fun getLoginStream(username: String, password: String): Flow<Login?>
+    // Retrieve a login from the given data source that matches the username and password
+    suspend fun loginExists(username: String, password: String): Boolean
 
     // Insert a login into the data source
     suspend fun insertLogin(login: Login)

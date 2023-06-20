@@ -1,5 +1,6 @@
 package com.example.kotlinlogin.ui.login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -52,6 +54,9 @@ fun LoginScreen(
 
     // Get a CoroutineScope bound to this composition to save and get data later
     val coroutineScope = rememberCoroutineScope()
+
+    // Get the current context for the onClick functions
+    val context = LocalContext.current
     // TODO: Probably remove Scaffold from Login
     Scaffold(
         topBar = {
@@ -69,13 +74,24 @@ fun LoginScreen(
                 coroutineScope.launch {
                     /* TODO: implement the loginClick function */
                     // if findLogin() finds the login, make a Toast stating so
-
-                    loginViewModel.findLogin()
+                    if(loginViewModel.findLogin()) {
+                        // Insert navigation function here to go to the next screen *Not implemented
+                        Toast.makeText(context, "Login found!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Login not found!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             onAcctCreateClick = {
                 coroutineScope.launch {
-                    loginViewModel.saveLogin()
+                    // If the login is not found, save the login to the database
+                    if(!loginViewModel.findLogin()) {
+                        // Insert navigation function here to go to the next screen *Not implemented
+                        Toast.makeText(context, "Login stored!", Toast.LENGTH_SHORT).show()
+                        loginViewModel.saveLogin()
+                    } else {
+                        Toast.makeText(context, "Login already exists!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             modifier = modifier.padding(innerPadding)

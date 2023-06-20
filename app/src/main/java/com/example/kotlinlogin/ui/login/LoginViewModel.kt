@@ -1,6 +1,7 @@
 package com.example.kotlinlogin.ui.login
 
 import android.util.Patterns
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -41,10 +42,17 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
      * Get the login from the database according to the username and password
      * and verify that it matches the UI state
      */
-    suspend fun findLogin() {
-        if (validateLogin()) {
-            loginsRepository.insertLogin(loginUiState.loginDetails.toLogin())
-        }
+    suspend fun findLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
+        // First, validate the login as an invalid login should never be entered.
+        // If the login exists, return true. Else, return false.
+            return if (validateLogin()) {
+                loginsRepository.loginExists(
+                    uiState.username,
+                    uiState.password
+                )
+            } else {
+                false
+            }
     }
 
     /**
