@@ -72,7 +72,6 @@ fun LoginScreen(
             onValuesChange = loginViewModel::updateUiState,
             onLoginClick = {
                 coroutineScope.launch {
-                    /* TODO: implement the loginClick function */
                     // if findLogin() finds the login, make a Toast stating so
                     if(loginViewModel.findLogin()) {
                         // Insert navigation function here to go to the next screen *Not implemented
@@ -119,7 +118,7 @@ private fun LoginBody(
     ) {
         LogoAndAppName()
         UsernameAndPasswordTexts(
-            loginDetails = loginUiState.loginDetails,
+            loginUiState = loginUiState,
             onValuesChange = onValuesChange,
         )
         FieldOfButtons(
@@ -157,7 +156,7 @@ private fun LogoAndAppName(modifier: Modifier = Modifier) {
   */
 @Composable
 private fun UsernameAndPasswordTexts(
-    loginDetails: LoginDetails,
+    loginUiState: LoginUiState,
     modifier: Modifier = Modifier,
     onValuesChange: (LoginDetails) -> Unit = {}
 ) {
@@ -166,9 +165,9 @@ private fun UsernameAndPasswordTexts(
     ) {
         // Email
         TextField(
-            value = loginDetails.username,
+            value = loginUiState.loginDetails.username,
             // Pass a copy of loginDetails with username set to the current username text
-            onValueChange = { onValuesChange(loginDetails.copy(username = it)) },
+            onValueChange = { onValuesChange(loginUiState.loginDetails.copy(username = it)) },
             singleLine = true,
             leadingIcon = {
                 Icon(
@@ -181,15 +180,16 @@ private fun UsernameAndPasswordTexts(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             ),
+            isError = loginUiState.isUsernameInvalid,
             modifier = Modifier
                 .padding(bottom = 12.dp)
         )
 
         // Password
         TextField(
-            value = loginDetails.password,
+            value = loginUiState.loginDetails.password,
             // Pass a copy of loginDetails with password set to the current password text
-            onValueChange = { onValuesChange( loginDetails.copy(password = it)) },
+            onValueChange = { onValuesChange(loginUiState.loginDetails.copy(password = it))},
             singleLine = true,
             leadingIcon = {
                 Icon(
@@ -203,14 +203,13 @@ private fun UsernameAndPasswordTexts(
                 imeAction = ImeAction.Done
             ),
             // Hide the characters in the TextField
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            isError = loginUiState.isPasswordInvalid,
         )
     }
 }
 
 // Create a group of buttons at the bottom of the screen.
-// TODO: Implement LoginClick and AcctCreateClick later
-// TODO: Create onLoginClick and onAcctCreateClick method
 @Composable
 private fun FieldOfButtons(
     onLoginClick: () -> Unit,

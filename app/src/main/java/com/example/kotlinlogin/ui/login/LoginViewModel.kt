@@ -22,9 +22,15 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
     /**
      * Update the private set loginUiState to the passed loginDetails
      */
-    fun updateUiState(loginDetails: LoginDetails) {
+    fun updateUiState(
+        loginDetails: LoginDetails = loginUiState.loginDetails,
+        isUsernameInvalid: Boolean = false,
+        isPasswordInvalid: Boolean = false
+    ) {
         loginUiState = LoginUiState(
-            loginDetails = loginDetails
+            loginDetails = loginDetails,
+            isUsernameInvalid = isUsernameInvalid,
+            isPasswordInvalid = isPasswordInvalid
         )
     }
 
@@ -53,10 +59,14 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
     suspend fun findLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
         // First, validate the login as an invalid login should never be entered.
         // If the login exists, return true. Else, return false.
-            return loginsRepository.loginExists(
+        return if (validateLogin()) {
+            loginsRepository.loginExists(
                 uiState.username,
                 uiState.password
             )
+        } else {
+            false
+        }
     }
 
     /**
@@ -77,13 +87,31 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
             // Check if the provided username matches a valid email pattern
             val matcher: Matcher = emailPattern.matcher(uiState.username.trim())
 
-            // If the username matches the username pattern, return true
+            /**
+             * If the username matches the username pattern,
+             * ensure the UiState's username is considered to be valid.
+             */
             if(matcher.matches() && username.trim().isNotBlank()) {
+                updateUiState(
+                    LoginDetails(
+                        username = username,
+                        password = password),
+                    isUsernameInvalid = false
+                )
                 validatePassword()
                 true
             } else {
-                // Else, update the UI state with the username reset to "" and return false
-                updateUiState(LoginDetails(password = uiState.password))
+                /**
+                 * Update the UI state setting the [LoginDetails]' username to "" and password to
+                 * the current uiState password. Also, set isUsernameValid to false.
+                 */
+                updateUiState(
+                    LoginDetails(
+                        username = "",
+                        password = uiState.password
+                    ),
+                    isUsernameInvalid = true
+                )
                 validatePassword()
                 false
             }
@@ -106,12 +134,30 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
             pattern = Pattern.compile(passwordPattern)
             val matcher: Matcher = pattern.matcher(uiState.password.trim())
 
-            // If the username matches the username pattern, return true
+            /**
+             * If the password matches the password pattern, set isUsernameInvalid to the current
+             * state, and ensure the UiState's password is considered to be valid.
+             */
             if(matcher.matches() && password.trim().isNotBlank()) {
+                updateUiState(
+                    LoginDetails(password = password),
+                    isUsernameInvalid = loginUiState.isUsernameInvalid,
+                    isPasswordInvalid = false
+                )
                 true
             } else {
-                // Else, update the UI state with the password reset to "" and return false
-                updateUiState(LoginDetails(username = uiState.username))
+                /**
+                 * Update the UI state setting the [LoginDetails]' password to "" and username to
+                 * the current uiState password. Also, set isUsernameValid to false.
+                 */
+                updateUiState(
+                    LoginDetails(
+                        username = uiState.username,
+                        password = ""
+                    ),
+                    isUsernameInvalid = loginUiState.isUsernameInvalid,
+                    isPasswordInvalid = true
+                )
                 false
             }
         }
@@ -125,8 +171,8 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
  */
 data class LoginUiState(
     val loginDetails: LoginDetails = LoginDetails(),
-    val isUsernameValid: Boolean? = null,
-    val isPasswordValid: Boolean? = null
+    val isUsernameInvalid: Boolean = false,
+    val isPasswordInvalid: Boolean = false
 )
 
 data class LoginDetails(
@@ -143,12 +189,12 @@ fun LoginDetails.toLogin(): Login = Login(
 
 // TODO: I added '= null' to is__Valid for initialization on 6/7. Remove later?
 fun Login.toLoginUiState(
-    isUsernameValid: Boolean? = null,
-    isPasswordValid: Boolean? = null
+    isUsernameInvalid: Boolean = false,
+    isPasswordInvalid: Boolean = false
 ):LoginUiState = LoginUiState(
         loginDetails = this.toLoginDetails(),
-        isUsernameValid = isUsernameValid,
-        isPasswordValid = isPasswordValid
+        isUsernameInvalid = isUsernameInvalid,
+        isPasswordInvalid = isPasswordInvalid
     )
 
 fun Login.toLoginDetails(): LoginDetails = LoginDetails(
