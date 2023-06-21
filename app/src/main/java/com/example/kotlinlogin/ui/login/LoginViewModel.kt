@@ -35,24 +35,6 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
     }
 
     /**
-     * Validate and save the current loginUiState details if the username and password
-     */
-    suspend fun saveLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
-        // Validate the login before checking it
-        return if (validateLogin()) {
-            // If the username was not found in the database, store the login, and return true
-            if(!findUsername()) {
-                loginsRepository.insertLogin(uiState.toLogin())
-                true
-            } else {
-                false
-            }
-        } else {
-            false
-        }
-    }
-
-    /**
      * Get the login from the database according to the username and password
      * and verify that it matches the UI state
      */
@@ -64,6 +46,24 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
                 uiState.username,
                 uiState.password
             )
+        } else {
+            false
+        }
+    }
+
+    /**
+     * Validate and save the current loginUiState details if the username and password
+     */
+    suspend fun saveLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
+        // Validate the login before checking it
+        return if (!findUsername()) {
+            // If the username was not found in the database, store the login, and return true
+            if(validateLogin()) {
+                loginsRepository.insertLogin(uiState.toLogin())
+                true
+            } else {
+                false
+            }
         } else {
             false
         }
@@ -103,7 +103,7 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
             } else {
                 /**
                  * Update the UI state setting the [LoginDetails]' username to "" and password to
-                 * the current uiState password. Also, set isUsernameValid to false.
+                 * the current uiState password. Also, set isUsernameInvalid to true.
                  */
                 updateUiState(
                     LoginDetails(
@@ -140,7 +140,10 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
              */
             if(matcher.matches() && password.trim().isNotBlank()) {
                 updateUiState(
-                    LoginDetails(password = password),
+                    LoginDetails(
+                        username = username,
+                        password = password
+                    ),
                     isUsernameInvalid = loginUiState.isUsernameInvalid,
                     isPasswordInvalid = false
                 )
@@ -148,7 +151,7 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
             } else {
                 /**
                  * Update the UI state setting the [LoginDetails]' password to "" and username to
-                 * the current uiState password. Also, set isUsernameValid to false.
+                 * the current uiState username. Also, set isPasswordInvalid to true.
                  */
                 updateUiState(
                     LoginDetails(
@@ -186,19 +189,3 @@ fun LoginDetails.toLogin(): Login = Login(
     username = username,
     password = password
 )
-
-// TODO: I added '= null' to is__Valid for initialization on 6/7. Remove later?
-fun Login.toLoginUiState(
-    isUsernameInvalid: Boolean = false,
-    isPasswordInvalid: Boolean = false
-):LoginUiState = LoginUiState(
-        loginDetails = this.toLoginDetails(),
-        isUsernameInvalid = isUsernameInvalid,
-        isPasswordInvalid = isPasswordInvalid
-    )
-
-fun Login.toLoginDetails(): LoginDetails = LoginDetails(
-        id = id,
-        username = username,
-        password = password
-    )

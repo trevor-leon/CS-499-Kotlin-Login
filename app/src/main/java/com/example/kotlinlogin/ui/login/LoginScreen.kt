@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.kotlinlogin.InventoryAppBar
+import com.example.kotlinlogin.LoginAppBar
 import com.example.kotlinlogin.R
 import com.example.kotlinlogin.ui.AppViewModelProvider
 import com.example.kotlinlogin.ui.navigation.NavigationDestination
@@ -64,7 +64,7 @@ fun LoginScreen(
     // TODO: Probably remove Scaffold from Login
     Scaffold(
         topBar = {
-            InventoryAppBar (
+            LoginAppBar (
                 title = stringResource(id = LoginDestination.titleRes),
                 canNavigateBack = false
             )
@@ -80,6 +80,7 @@ fun LoginScreen(
                     if(loginViewModel.findLogin()) {
                         // Insert navigation function here to go to the next screen *Not implemented
                         Toast.makeText(context, "Login found!", Toast.LENGTH_SHORT).show()
+                        navigateToNextScreen()
                     } else {
                         Toast.makeText(context, "Login not found!", Toast.LENGTH_SHORT).show()
                     }
@@ -87,15 +88,17 @@ fun LoginScreen(
             },
             onAcctCreateClick = {
                 coroutineScope.launch {
-                    // If the login is not found, save the login to the database
+                    // If the login is not found in the database, save the login to the database
                     if(loginViewModel.saveLogin()) {
                         // Insert navigation function here to go to the next screen *Not implemented
                         Toast.makeText(context, "Login stored!", Toast.LENGTH_SHORT).show()
+                        navigateToNextScreen()
                     } else {
                         Toast.makeText(context, "Account creation failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
+            navigateToNextScreen = navigateToNextScreen,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -112,6 +115,7 @@ private fun LoginBody(
     onValuesChange: (LoginDetails) -> Unit,
     onLoginClick: () -> Unit,
     onAcctCreateClick: () -> Unit,
+    navigateToNextScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -206,7 +210,7 @@ private fun UsernameAndPasswordTexts(
         TextField(
             value = loginUiState.loginDetails.password,
             // Pass a copy of loginDetails with password set to the current password text
-            onValueChange = { onValuesChange(loginUiState.loginDetails.copy(password = it))},
+            onValueChange = { onValuesChange(loginUiState.loginDetails.copy(password = it)) },
             singleLine = true,
             leadingIcon = {
                 Icon(

@@ -11,24 +11,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.kotlinlogin.ui.navigation.InventoryNavHost
+import com.example.kotlinlogin.ui.navigation.LoginNavHost
 
 /**
  * Top-level Composable to manage the screens of the application called from MainActivity
  */
 @Composable
-fun InventoryApp(navController: NavHostController = rememberNavController()) {
-    InventoryNavHost(navController = navController)
+fun LoginApp(navController: NavHostController = rememberNavController()) {
+    LoginNavHost(navController = navController)
 }
 
 /**
  * App bar to display the title and back navigation if applicable.
  */
 @Composable
-fun InventoryAppBar(
+fun LoginAppBar(
     title: String,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
+    onNavigateBack: () -> Unit = {},
     navigateUp: () -> Unit = {}
 ) {
     if (canNavigateBack) {

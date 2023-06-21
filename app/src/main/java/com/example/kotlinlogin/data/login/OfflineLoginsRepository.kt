@@ -10,7 +10,7 @@ class OfflineLoginsRepository(private val loginDao: LoginDao) : LoginsRepository
 
     // Determine whether or not the username and password combination exists in the database.
     override suspend fun loginExists(username: String, password: String): Boolean =
-        loginDao.loginExists(username, password)
+        loginDao.loginValid(username, password)
 
     // Determine whether or not the username exists in the database.
     override suspend fun usernameExists(username: String): Boolean =

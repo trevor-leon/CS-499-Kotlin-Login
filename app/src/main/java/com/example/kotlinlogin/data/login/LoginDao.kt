@@ -30,7 +30,7 @@ interface LoginDao {
 
     // Determine if a login exists in the database; used for validating logins
     @Query("SELECT EXISTS(SELECT * FROM Login WHERE username = :username AND password = :password)")
-    suspend fun loginExists(username: String, password: String): Boolean
+    suspend fun loginValid(username: String, password: String): Boolean
 
     // Determine if a username already exists in the database; used to confirm storage
     @Query("SELECT EXISTS(SELECT * FROM Login WHERE username = :username)")
