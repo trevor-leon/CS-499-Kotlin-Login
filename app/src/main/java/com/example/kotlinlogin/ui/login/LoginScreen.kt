@@ -85,12 +85,11 @@ fun LoginScreen(
             onAcctCreateClick = {
                 coroutineScope.launch {
                     // If the login is not found, save the login to the database
-                    if(!loginViewModel.findLogin()) {
+                    if(loginViewModel.saveLogin()) {
                         // Insert navigation function here to go to the next screen *Not implemented
                         Toast.makeText(context, "Login stored!", Toast.LENGTH_SHORT).show()
-                        loginViewModel.saveLogin()
                     } else {
-                        Toast.makeText(context, "Login already exists!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Account creation failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
@@ -169,7 +168,7 @@ private fun UsernameAndPasswordTexts(
         TextField(
             value = loginDetails.username,
             // Pass a copy of loginDetails with username set to the current username text
-            onValueChange = { onValuesChange( loginDetails.copy(username = it))},
+            onValueChange = { onValuesChange(loginDetails.copy(username = it)) },
             singleLine = true,
             leadingIcon = {
                 Icon(

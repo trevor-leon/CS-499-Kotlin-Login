@@ -1,7 +1,6 @@
 package com.example.kotlinlogin.ui.login
 
 import android.util.Patterns
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -32,9 +31,18 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
     /**
      * Validate and save the current loginUiState details if the username and password
      */
-    suspend fun saveLogin() {
-        if (validateLogin()) {
-            loginsRepository.insertLogin(loginUiState.loginDetails.toLogin())
+    suspend fun saveLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
+        // Validate the login before checking it
+        return if (validateLogin()) {
+            // If the username was not found in the database, store the login, and return true
+            if(!findUsername()) {
+                loginsRepository.insertLogin(uiState.toLogin())
+                true
+            } else {
+                false
+            }
+        } else {
+            false
         }
     }
 
@@ -45,14 +53,17 @@ class LoginViewModel (private val loginsRepository: LoginsRepository) : ViewMode
     suspend fun findLogin(uiState: LoginDetails = loginUiState.loginDetails): Boolean {
         // First, validate the login as an invalid login should never be entered.
         // If the login exists, return true. Else, return false.
-            return if (validateLogin()) {
-                loginsRepository.loginExists(
-                    uiState.username,
-                    uiState.password
-                )
-            } else {
-                false
-            }
+            return loginsRepository.loginExists(
+                uiState.username,
+                uiState.password
+            )
+    }
+
+    /**
+     * Determine if a username is already stored in the database
+     */
+    private suspend fun findUsername(username: String = loginUiState.loginDetails.username): Boolean {
+        return loginsRepository.usernameExists(username)
     }
 
     /**

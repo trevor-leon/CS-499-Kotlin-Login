@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
  * Entity data class to represent a row of the Login database
  * Set the id and username to be unique
  */
-@Entity(indices = [Index(value = ["id", "username"], unique = true)])
+// TODO: Do more research and probably make id and username PK's.
+@Entity(indices = [Index(value = ["username"], unique = true)])
 data class Login(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
