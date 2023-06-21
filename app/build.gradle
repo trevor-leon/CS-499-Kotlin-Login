@@ -89,6 +89,9 @@ dependencies {
     androidTestImplementation("androidx.security:security-app-authenticator:1.0.0-alpha02")
     // =============================================================================================
 
+    // Status bar
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
+
     // Testing
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"

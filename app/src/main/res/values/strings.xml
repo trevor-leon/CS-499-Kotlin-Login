@@ -11,5 +11,6 @@
     <string name="invalid_username_password_toast">Invalid Email or password.</string>
     <string name="account_not_created">Account not created. Something went wrong. Try again.</string>
     <string name="back">back</string>
+    <string name="password_should_contain">Password should contain at least ten characters using\nuppercase and lowercase letters, numbers, and symbols.</string>
 
 </resources>

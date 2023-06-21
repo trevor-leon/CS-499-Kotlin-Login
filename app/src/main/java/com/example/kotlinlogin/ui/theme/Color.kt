@@ -1,6 +1,8 @@
 package com.example.kotlinlogin.ui.theme
 import androidx.compose.ui.graphics.Color
 
+val brandColor = Color(0xFF6464FF)
+
 val md_theme_light_primary = Color(0xFF4846E3)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFE1DFFF)
@@ -52,8 +54,10 @@ val md_theme_dark_background = Color(0xFF001F25)
 val md_theme_dark_onBackground = Color(0xFFA6EEFF)
 val md_theme_dark_surface = Color(0xFF001F25)
 val md_theme_dark_onSurface = Color(0xFFA6EEFF)
-val md_theme_dark_surfaceVariant = Color(0xFF47464F)
-val md_theme_dark_onSurfaceVariant = Color(0xFFC8C5D0)
+// Changed md_theme_dark_surfaceVariant from 0xFF47464F
+val md_theme_dark_surfaceVariant = Color(0xFF121212)
+// Changed md_theme_dark_onSurfaceVariant from 0xFFC8C5D0
+val md_theme_dark_onSurfaceVariant = brandColor
 val md_theme_dark_outline = Color(0xFF918F9A)
 val md_theme_dark_inverseOnSurface = Color(0xFF001F25)
 val md_theme_dark_inverseSurface = Color(0xFFA6EEFF)
@@ -62,6 +66,3 @@ val md_theme_dark_inversePrimary = Color(0xFF4846E3)
 val md_theme_dark_surfaceTint = Color(0xFFC1C1FF)
 val md_theme_dark_outlineVariant = Color(0xFF47464F)
 val md_theme_dark_scrim = Color(0xFF000000)
-
-
-val brandColor = Color(0xFF6464FF)

@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -181,8 +185,21 @@ private fun UsernameAndPasswordTexts(
                 imeAction = ImeAction.Next
             ),
             isError = loginUiState.isUsernameInvalid,
+            supportingText = {
+                if (loginUiState.isUsernameInvalid) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = "Input username should follow an email pattern.",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            trailingIcon = {
+                if (loginUiState.isUsernameInvalid)
+                    Icon(Icons.Filled.Warning,"error", tint = MaterialTheme.colorScheme.error)
+            },
             modifier = Modifier
-                .padding(bottom = 12.dp)
+                .padding(bottom = 8.dp)
         )
 
         // Password
@@ -205,6 +222,25 @@ private fun UsernameAndPasswordTexts(
             // Hide the characters in the TextField
             visualTransformation = PasswordVisualTransformation(),
             isError = loginUiState.isPasswordInvalid,
+            supportingText = {
+                if (loginUiState.isUsernameInvalid) {
+                    Text(
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .padding(end = 24.dp),
+                        text = stringResource(R.string.password_should_contain),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            trailingIcon = {
+                if (loginUiState.isUsernameInvalid)
+                    Icon(
+                        Icons.Filled.Warning,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
+            },
         )
     }
 }
@@ -218,7 +254,7 @@ private fun FieldOfButtons(
 ) {
     Row(
         modifier = modifier
-            .padding(top = 40.dp, start = 24.dp, end = 24.dp, bottom = 24.dp)
+            .padding(top = 20.dp, start = 24.dp, end = 24.dp, bottom = 24.dp)
     ) {
         // Login button
         ElevatedButton(
