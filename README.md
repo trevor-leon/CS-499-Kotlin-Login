@@ -24,17 +24,18 @@ When the user presses either the Login or Create Account buttons, the input emai
 
 If the user tries to create an account using an email already stored in the database, they will receive a Toast with a message stating "Account creation failed.":
 
-![KotlinAccountCreationFailed](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/ad47bc1a-0d2c-4b45-a89f-cd59ba6326fa)
+![KotlinAccountCreationFailed](https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/278be729-8340-4a66-8f79-4e782b1d9dc9)
 
 
 If the user tries to login with an email/password combination stored in the database, they will receive a Toast with a message stating "Login not found!":
 
-![KotlinLoginNotFound](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/d9e16e79-b628-49da-afad-5c4bcad1e778)
+![KotlinLoginNotFound](https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/8008815d-006f-4d39-beb5-b88240fa6fb9)
 
 
 Otherwise, they will be navigated to the next screen letting them know that they have logged in after account creation or a login:
 
-![KotlinLoginSuccess](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/cfede820-01f5-4f7e-b01e-ecdbe240e082)
+![KotlinLoginSuccess](https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/0ec4268c-78d9-4565-a58c-e0748db112ed)
+
 
 Logins stored are encrypted by the Room database. The CryptoManager class algorithmically generates a secret key for encryption and decryption if one doesn't exist yet:
 
@@ -129,7 +130,7 @@ b. the enhancement plan – First, I want to convert or rewrite the login screen
 c. the specific skills relevant to the course outcomes – In this project, I want to employ strategies for building collaborative environments by utilizing separation of concerns to allow for a more collaborative and scalable project and provide useful comments throughout the project. Additionally, I will showcase my newfound Kotlin skills in this project to show I can utilize innovative solutions as the course outcomes require. Also, a dark/light mode will allow more flexibility and a wider audience to enjoy my app according to their own preference. Below 
 is the overall structure and plan of the Login activity:
 
-![image](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/8e80b9fd-79cb-4f56-9098-b939101a9fa7)
+<img width="488" alt="KotlinLoginOverview" src="https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/d3c6b2c6-a851-481b-9fd0-f07e5614ec2c">
 
  
 &emsp;When the app is started, the onCreate() method is called, which sets up the screen as shown above. A new user can input their username and password before tapping the “Create Account” button, which will save their credentials to the database securely. If the username is already in the database, it will not be inserted, and the user will be notified of an invalid entry. If the user taps the “Login” button, the input credentials will be verified against the credentials in the database, and the user will be directed accordingly. From here, the Login activity can be reused for any other application.
@@ -143,7 +144,7 @@ b. the enhancement plan – The Login and Create Account methods I already desig
 
 c. the specific skills relevant to the course outcomes – I will demonstrate that I can design and evaluate computing solutions that solve a given problem using algorithmic principles and computer science practices and standards appropriate to its solution by properly utilizing encryption algorithms to better protect user data and checking input fields for proper input. Encrypting user data before storing it also demonstrates a security mindset that anticipates adversarial exploits in software architecture and designs to expose potential vulnerabilities, mitigate design flaws, and ensure privacy and enhanced security of data and resources by making it considerably harder for an attacker to use the encrypted data.
 
-![image](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/d76d3d77-579f-4295-ab6c-39185ebcc6de)
+<img width="386" alt="DatabasePlan" src="https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/0b55b6c9-f218-4acf-9304-80ebe257c111">
 
  
 &emsp;The UI sends loginUiState data such as the input username and password to the ViewModel, which determines if it is valid before storing it or using it. The CryptoManager class provides an encryption key stored in an encrypted file on the device for the Room database configured with SQLCipher to use to encrypt the database. The input is then used by the database’s operations to read or write necessary data. When the user wants to log in or create an account, they will tap the respective button. This will send the current data in the text boxes to the LoginViewModel, which will use database operations to store, read, or manipulate it. Below is example of pseudocode of how the login/create account button functions would be implemented using my plan of pattern matching; as well as how user accounts should be verified before storing them in the database:
@@ -187,7 +188,7 @@ b. the enhancement plan – Firstly, I want to utilize a Room database, which is
 
 c. the specific skills relevant to the course outcomes – I want to showcase my ability to use well-founded and innovative techniques, skills, and tools in computing practices for the purpose of implementing computer solutions that deliver value and accomplish industry-specific goals by using Room databases. As previously stated, Room databases are recommended to use as they serve as an abstraction layer to SQLite databases to prevent misuse and simplify the process. Doing so also demonstrates a security mindset that anticipates adversarial exploits in software architecture and designs to expose potential vulnerabilities, mitigate design flaws, and ensure privacy and enhanced security of data and resources as they are designed to verify queries, reduce boilerplate code that comes with using SQLite.
 
-![image](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/26f57160-9c4e-4e7c-b1e0-badebcf4369b)
+<img width="468" alt="DatabaseDaoEntityRelationship" src="https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/1b030b70-8602-440b-a8a0-21f64c615db7">
 
  
 # ePortfolio Overall
