@@ -17,7 +17,7 @@ object AppViewModelProvider {
 }
 
 /**
- * Extension function
+ * Extension function for the [LoginApplication]
  */
 fun CreationExtras.loginApplication(): LoginApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as LoginApplication)

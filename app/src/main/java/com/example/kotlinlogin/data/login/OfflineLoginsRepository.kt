@@ -1,12 +1,9 @@
 package com.example.kotlinlogin.data.login
 
-import kotlinx.coroutines.flow.Flow
-
 /**
  * Offline repository representation of a [LoginsRepository] that uses the [LoginDao] to access logins
  */
 class OfflineLoginsRepository(private val loginDao: LoginDao) : LoginsRepository {
-    override fun getAllLoginsStream(): Flow<List<Login>> = loginDao.getAllLogins()
 
     // Determine whether or not the username and password combination exists in the database.
     override suspend fun loginExists(username: String, password: String): Boolean =

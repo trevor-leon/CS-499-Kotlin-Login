@@ -5,9 +5,8 @@ import com.example.kotlinlogin.data.AppContainer
 import com.example.kotlinlogin.data.AppDataContainer
 
 class LoginApplication : Application() {
-    /**
-     * Instance of AppContainer (in data) to be used by the app's classes
-     */
+
+    // Instance of AppContainer (in data) to be used by the app's classes
     lateinit var container: AppContainer
 
     override fun onCreate() {

@@ -6,7 +6,7 @@ import com.example.kotlinlogin.data.login.LoginsRepository
 import com.example.kotlinlogin.data.login.OfflineLoginsRepository
 
 /**
- * App container for Dependency injection.
+ * App container to implement Dependency injection.
  */
 interface AppContainer {
     val loginsRepository: LoginsRepository

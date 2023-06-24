@@ -36,7 +36,6 @@ fun LoginNavHost(
         // Implement other composables
         composable(route = SuccessDestination.route) {
             SuccessfulLoginScreen(
-                onNavigateBack = { navController.navigate(LoginDestination.route) },
                 onNavigateUp = { navController.navigateUp() }
             )
         }

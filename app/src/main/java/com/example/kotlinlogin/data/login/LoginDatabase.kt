@@ -4,19 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.security.crypto.EncryptedFile
-import androidx.security.crypto.MasterKeys
+import com.example.kotlinlogin.data.login.CryptoManager.Companion.readEncryptedFile
+import com.example.kotlinlogin.data.login.CryptoManager.Companion.writeEncryptedFile
 import net.sqlcipher.database.SupportFactory
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.nio.charset.StandardCharsets
-import javax.crypto.SecretKey
 
 /**
  * Specify the database with the Login class as the entity; without keeping a version backup history
  */
 @Database(entities = [Login::class], version = 3, exportSchema = false)
 abstract class LoginDatabase : RoomDatabase() {
+    // Initialize the LoginDao()
     abstract fun loginDao(): LoginDao
     // Companion object allows access to database methods
     companion object {
@@ -48,68 +45,6 @@ abstract class LoginDatabase : RoomDatabase() {
                     .build()
                     .also { Instance = it }
             }
-        }
-
-        /**
-         * Read an encrypted file; used to get the key from the encrypted file
-         * Redesigned from: https://developer.android.com/topic/security/data
-         */
-        private fun readEncryptedFile(context: Context): ByteArray {
-            // Key generation parameter specification
-            val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-            val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-
-            val fileToRead = "encrypted.txt"
-            val encryptedFile = EncryptedFile.Builder(
-                File(context.filesDir, fileToRead),
-                context,
-                mainKeyAlias,
-                EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-            ).build()
-
-            val inputStream = encryptedFile.openFileInput()
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            var nextByte: Int = inputStream.read()
-            while (nextByte != -1) {
-                byteArrayOutputStream.write(nextByte)
-                nextByte = inputStream.read()
-            }
-
-            return byteArrayOutputStream.toByteArray()
-
-        }
-
-        /**
-         * Write to an encrypted file; used to store the key
-         * Redesigned from: https://developer.android.com/topic/security/data
-         * @param stringToWrite the string to write to the encrypted file
-         */
-        private fun writeEncryptedFile(context: Context, stringToWrite: SecretKey) {
-            // Create a file with this name or replace an entire existing file
-            // that has the same name. Note that you cannot append to an existing file,
-            // and the filename cannot contain path separators.
-            val fileToWrite = "encrypted.txt"
-            // If the file to write to does not exist, create it.
-            if (!File(context.filesDir, fileToWrite).exists()) {
-                val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-                val mainKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-                val encryptedFile = EncryptedFile.Builder(
-                    File(context.filesDir, fileToWrite),
-                    context,
-                    mainKeyAlias,
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-                ).build()
-
-                val fileContent = stringToWrite
-                    .toString()
-                    .toByteArray(StandardCharsets.UTF_8)
-                encryptedFile.openFileOutput().apply {
-                    write(fileContent)
-                    flush()
-                    close()
-                }
-            }
-
         }
     }
 }

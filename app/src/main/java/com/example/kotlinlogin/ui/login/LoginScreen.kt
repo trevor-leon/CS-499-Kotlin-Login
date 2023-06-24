@@ -39,7 +39,9 @@ import com.example.kotlinlogin.ui.navigation.NavigationDestination
 import com.example.kotlinlogin.ui.theme.brandColor
 import kotlinx.coroutines.launch
 
-
+/**
+ * Define the [LoginDestination] specifying the [route] and [titleRes]
+ */
 object LoginDestination : NavigationDestination {
     override val route = "Login"
     override val titleRes = R.string.app_name
@@ -61,7 +63,7 @@ fun LoginScreen(
 
     // Get the current context for the onClick functions
     val context = LocalContext.current
-    // TODO: Probably remove Scaffold from Login
+
     Scaffold(
         topBar = {
             LoginAppBar (
@@ -98,7 +100,6 @@ fun LoginScreen(
                     }
                 }
             },
-            navigateToNextScreen = navigateToNextScreen,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -115,7 +116,6 @@ private fun LoginBody(
     onValuesChange: (LoginDetails) -> Unit,
     onLoginClick: () -> Unit,
     onAcctCreateClick: () -> Unit,
-    navigateToNextScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(

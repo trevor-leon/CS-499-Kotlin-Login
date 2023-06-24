@@ -75,7 +75,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun KotlinInventoryTheme(
+fun KotlinLoginTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {

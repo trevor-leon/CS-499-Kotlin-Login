@@ -20,12 +20,10 @@ object SuccessDestination : NavigationDestination {
 
 /**
  * Login Success Screen
- * @param onNavigateBack the function used to navigate back to the login screen
  * @param onNavigateUp the function used to navigate up using the navigation bar at the bottom
  */
 @Composable
 fun SuccessfulLoginScreen(
-    onNavigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -34,7 +32,6 @@ fun SuccessfulLoginScreen(
             LoginAppBar(
                 title = stringResource(R.string.login),
                 canNavigateBack = true,
-                onNavigateBack = onNavigateBack,
                 navigateUp = onNavigateUp
             )
         }

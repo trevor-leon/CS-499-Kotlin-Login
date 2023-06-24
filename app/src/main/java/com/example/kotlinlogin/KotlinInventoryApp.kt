@@ -29,7 +29,6 @@ fun LoginAppBar(
     title: String,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit = {},
     navigateUp: () -> Unit = {}
 ) {
     if (canNavigateBack) {
