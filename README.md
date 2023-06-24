@@ -6,8 +6,7 @@ This Login application is a general-purpose app that can be extended for use in 
 
 Here is the Login activity:
 
-![KotlinLoginFirstPic](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/83f89680-47c3-4702-afc3-7166fe9a7b39)
-
+![KotlinLoginFirstPic](https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/e1a02ffd-cc47-4f59-b97a-5426e25cfa1c)
 
 
 A valid Login is determined using the following Query that returns a Boolean specifying if the username and password combination was found or not:
@@ -20,7 +19,8 @@ suspend fun usernameExists(username: String): Boolean
 
 When the user presses either the Login or Create Account buttons, the input email and password are first checked to see if they follow their respective patterns. If the input username doesn't look like an email, the email input will be erased, the email text field will turn red, and output a supporting text message letting the user know that the email should follow an email pattern. If the password doesn't follow secure password guidelines such as using uppercase and lowercase letters, symbols, numbers, and longer passwords, the input password will be erased, the password text field will turn red, and output a supporting text message letting the user know that their password should follow certain guidelines:
 
-![KotlinLoginErrorPic](https://github.com/trevor-leon/CS-499_CompSci_Capstone/assets/72781990/2eae135c-ad0d-4fe4-b6f5-e3020c6ec8fe)
+![KotlinLoginErrorPic](https://github.com/trevor-leon/CS-499-Kotlin-Login/assets/72781990/04a3b2cd-ec9b-4eb6-b2b2-30702727b478)
+
 
 If the user tries to create an account using an email already stored in the database, they will receive a Toast with a message stating "Account creation failed.":
 
