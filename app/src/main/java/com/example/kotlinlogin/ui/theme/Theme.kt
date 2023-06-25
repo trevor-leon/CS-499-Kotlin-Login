@@ -74,6 +74,9 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+/**
+ * Set the theme for the app according to the user's dark mode preferences
+ */
 @Composable
 fun KotlinLoginTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
